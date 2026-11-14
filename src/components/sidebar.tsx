@@ -1,0 +1,101 @@
+"use client";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import clsx from "clsx";
+import {
+  LayoutDashboard,
+  Building2,
+  ClipboardCheck,
+  FileSearch,
+  ListChecks,
+  GitCompareArrows,
+  Network,
+  Users,
+  Settings,
+  GraduationCap,
+  ExternalLink,
+  BookOpen,
+} from "lucide-react";
+
+const NAV = [
+  { section: "Overview", items: [{ href: "/", label: "Dashboard", icon: LayoutDashboard }] },
+  {
+    section: "SO1 · Within-case",
+    items: [
+      { href: "/cases", label: "Cases", icon: Building2 },
+      { href: "/scoring", label: "Consensus scoring", icon: ClipboardCheck },
+      { href: "/documents", label: "Document audit", icon: FileSearch },
+      { href: "/survey", label: "Faculty survey (FCIS)", icon: ListChecks },
+    ],
+  },
+  {
+    section: "SO2–SO4 · Synthesis",
+    items: [
+      { href: "/cross-case", label: "Cross-case synthesis", icon: GitCompareArrows },
+      { href: "/framework", label: "Framework builder", icon: Network },
+      { href: "/delphi", label: "e-Delphi validation", icon: Users },
+    ],
+  },
+  {
+    section: "System",
+    items: [
+      { href: "/rubric", label: "CDIO rubric", icon: BookOpen },
+      { href: "/settings", label: "Thresholds & settings", icon: Settings },
+    ],
+  },
+];
+
+export function Sidebar() {
+  const path = usePathname();
+  return (
+    <aside className="sticky top-0 hidden h-screen w-64 shrink-0 flex-col bg-ink-950 text-slate-300 lg:flex">
+      <div className="flex items-center gap-2.5 px-5 py-5">
+        <div className="grid h-9 w-9 place-items-center rounded-lg bg-brand-600 text-white">
+          <GraduationCap size={18} />
+        </div>
+        <div className="leading-tight">
+          <p className="text-sm font-semibold text-white">CDIO Study</p>
+          <p className="text-[11px] text-slate-400">Institutionalization research</p>
+        </div>
+      </div>
+      <nav className="flex-1 overflow-y-auto px-3 pb-4">
+        {NAV.map((g) => (
+          <div key={g.section} className="mt-4">
+            <p className="px-2 pb-1.5 text-[10px] font-semibold uppercase tracking-wider text-slate-500">{g.section}</p>
+            {g.items.map(({ href, label, icon: Icon }) => {
+              const active = href === "/" ? path === "/" : path.startsWith(href);
+              return (
+                <Link
+                  key={href}
+                  href={href}
+                  className={clsx(
+                    "mb-0.5 flex items-center gap-2.5 rounded-md px-2.5 py-2 text-[13px] transition-colors",
+                    active ? "bg-white/10 font-medium text-white" : "hover:bg-white/5 hover:text-white",
+                  )}
+                >
+                  <Icon size={16} className={active ? "text-brand-200" : "text-slate-500"} />
+                  {label}
+                </Link>
+              );
+            })}
+          </div>
+        ))}
+        <div className="mt-4">
+          <p className="px-2 pb-1.5 text-[10px] font-semibold uppercase tracking-wider text-slate-500">Participant views</p>
+          <Link href="/s/demo" className="flex items-center gap-2.5 rounded-md px-2.5 py-2 text-[13px] hover:bg-white/5 hover:text-white">
+            <ExternalLink size={16} className="text-slate-500" /> Survey form (public)
+          </Link>
+        </div>
+      </nav>
+      <div className="border-t border-white/10 px-4 py-3">
+        <div className="flex items-center gap-2.5">
+          <div className="grid h-8 w-8 place-items-center rounded-full bg-brand-500/20 text-xs font-semibold text-brand-100">JB</div>
+          <div className="leading-tight">
+            <p className="text-xs font-medium text-white">Engr. J. R. Bajuyo</p>
+            <p className="text-[11px] text-slate-400">Researcher · Admin</p>
+          </div>
+        </div>
+      </div>
+    </aside>
+  );
+}
