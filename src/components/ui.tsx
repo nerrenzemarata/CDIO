@@ -13,13 +13,21 @@ export function PageHeader({
   actions?: React.ReactNode;
 }) {
   return (
-    <div className="mb-6 flex flex-wrap items-end justify-between gap-4">
-      <div>
-        {eyebrow && <p className="text-xs font-semibold uppercase tracking-wider text-brand-600">{eyebrow}</p>}
-        <h1 className="mt-1 text-2xl font-semibold tracking-tight text-slate-900">{title}</h1>
-        {description && <p className="mt-1 max-w-3xl text-sm text-slate-500">{description}</p>}
+    <div className="mb-6">
+      <div className="flex flex-wrap items-end justify-between gap-4">
+        <div>
+          {eyebrow && (
+            <p className="flex items-center gap-2 font-mono text-[11px] font-medium uppercase tracking-[0.14em] text-brand-700">
+              <span className="h-2 w-2 rotate-45 bg-safety-500" />
+              {eyebrow}
+            </p>
+          )}
+          <h1 className="mt-1.5 text-2xl font-semibold tracking-tight text-ink-950">{title}</h1>
+          {description && <p className="mt-1 max-w-3xl text-sm text-slate-600">{description}</p>}
+        </div>
+        {actions && <div className="flex items-center gap-2">{actions}</div>}
       </div>
-      {actions && <div className="flex items-center gap-2">{actions}</div>}
+      <div className="ruler mt-4 text-brand-600" />
     </div>
   );
 }
@@ -40,11 +48,16 @@ export function Card({
   bodyClass?: string;
 }) {
   return (
-    <section className={clsx("rounded-xl border border-slate-200 bg-white shadow-[0_1px_2px_rgba(15,23,42,0.04)]", className)}>
+    <section className={clsx("rounded-xl border border-slate-200/90 bg-white shadow-[0_1px_2px_rgba(11,17,18,0.06)]", className)}>
       {(title || action) && (
-        <header className="flex items-start justify-between gap-3 border-b border-slate-100 px-5 py-3.5">
+        <header className="flex items-start justify-between gap-3 border-b border-dashed border-slate-200 px-5 py-3.5">
           <div>
-            {title && <h2 className="text-sm font-semibold text-slate-900">{title}</h2>}
+            {title && (
+              <h2 className="flex items-center gap-2 text-sm font-semibold text-ink-950">
+                <span className="h-3.5 w-1 shrink-0 rounded-full bg-safety-500" />
+                {title}
+              </h2>
+            )}
             {subtitle && <p className="mt-0.5 text-xs text-slate-500">{subtitle}</p>}
           </div>
           {action}
@@ -67,12 +80,12 @@ export function Stat({
   icon?: React.ReactNode;
 }) {
   return (
-    <div className="rounded-xl border border-slate-200 bg-white p-4 shadow-[0_1px_2px_rgba(15,23,42,0.04)]">
+    <div className="reg-marks rounded-xl border border-slate-200/90 bg-white p-4 shadow-[0_1px_2px_rgba(11,17,18,0.06)]">
       <div className="flex items-center justify-between">
-        <p className="text-xs font-medium text-slate-500">{label}</p>
-        {icon && <span className="text-slate-400">{icon}</span>}
+        <p className="font-mono text-[11px] font-medium uppercase tracking-wider text-slate-500">{label}</p>
+        {icon && <span className="grid h-7 w-7 place-items-center rounded-md bg-brand-50 text-brand-600">{icon}</span>}
       </div>
-      <p className="tabular mt-2 text-2xl font-semibold tracking-tight text-slate-900">{value}</p>
+      <p className="tabular mt-2 font-mono text-2xl font-semibold tracking-tight text-ink-950">{value}</p>
       {hint && <p className="mt-1 text-xs text-slate-500">{hint}</p>}
     </div>
   );
@@ -146,7 +159,7 @@ export function Table({ children, className }: { children: React.ReactNode; clas
   );
 }
 export function Th({ children, className }: { children?: React.ReactNode; className?: string }) {
-  return <th className={clsx("whitespace-nowrap border-b border-slate-200 bg-slate-50/70 px-3 py-2 text-[11px] font-semibold uppercase tracking-wide text-slate-500", className)}>{children}</th>;
+  return <th className={clsx("whitespace-nowrap border-b border-slate-200 bg-brand-50/50 px-3 py-2 font-mono text-[10.5px] font-medium uppercase tracking-wider text-slate-500", className)}>{children}</th>;
 }
 export function Td({ children, className }: { children?: React.ReactNode; className?: string }) {
   return <td className={clsx("border-b border-slate-100 px-3 py-2.5 align-top text-slate-700", className)}>{children}</td>;

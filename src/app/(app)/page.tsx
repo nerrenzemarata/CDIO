@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Building2, ClipboardCheck, ListChecks, AlertTriangle, ArrowRight, CheckCircle2, Circle } from "lucide-react";
-import { Card, PageHeader, Stat, Badge, Progress, Button, SampleDataNotice } from "@/components/ui";
+import { Card, Stat, Badge, Progress, SampleDataNotice } from "@/components/ui";
+import { WhatIsCDIO } from "@/components/what-is-cdio";
 import { IMIBars, MaturityRadar } from "@/components/charts";
 import { CASES, STANDARDS, caseIMI, caseStandardMedians, unverifiedCount, surveyData, RECENT } from "@/lib/data";
 import { imiBand } from "@/lib/stats";
@@ -22,19 +23,44 @@ export default function Dashboard() {
 
   return (
     <>
-      <PageHeader
-        eyebrow="Research overview"
-        title="Institutionalization of the CDIO Framework"
-        description="Comparative multiple-case study of five CDIO collaborator state universities: maturity on the 12 CDIO Standards, adoption pathways, and an expert-validated implementation framework."
-        actions={
-          <>
-            <Button variant="secondary">Export data</Button>
-            <Button href="/scoring">
-              Open consensus session <ArrowRight size={15} />
-            </Button>
-          </>
-        }
-      />
+      <section className="relative isolate mb-6 overflow-hidden rounded-2xl border border-ink-900 px-7 py-10 text-white shadow-lg">
+        {/* background photo: engineering students working on design-implement projects */}
+        <div aria-hidden className="absolute inset-0 -z-20 bg-cover bg-[center_35%]" style={{ backgroundImage: "url(/dashboard-hero.jpg)" }} />
+        {/* dark on the left for the text, lighter on the right so the students stay visible */}
+        <div aria-hidden className="absolute inset-0 -z-10 bg-gradient-to-r from-ink-950/95 via-ink-950/75 to-ink-950/25" />
+        <div aria-hidden className="absolute inset-x-0 bottom-0 -z-10 h-1 bg-safety-500" />
+        <p className="flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.16em] text-brand-200/80">
+          <span className="h-2 w-2 rotate-45 bg-safety-500" /> PhD Engineering Education · Research overview
+        </p>
+        <h1 className="mt-2 max-w-3xl text-[28px] font-semibold leading-tight tracking-tight">Institutionalization of the CDIO Framework in Philippine Engineering Education</h1>
+        <p className="mt-2 max-w-3xl text-sm text-slate-300">
+          A comparative multiple-case study of five CDIO collaborator state universities: maturity on the 12 CDIO Standards, adoption pathways, and an
+          expert-validated implementation framework.
+        </p>
+        <p className="mt-3 flex items-center gap-2 text-sm text-slate-300">
+          <span className="h-px w-6 bg-safety-500" />A dissertation by <span className="font-semibold text-white">Engr. John Rey B. Bajuyo</span>
+        </p>
+        <div className="mt-6 flex flex-wrap gap-2">
+          <Link href="/scoring" className="inline-flex items-center gap-1.5 rounded-lg bg-safety-500 px-3.5 py-2 text-sm font-semibold text-ink-950 hover:bg-safety-400">
+            Open consensus session <ArrowRight size={15} />
+          </Link>
+          <button className="inline-flex items-center gap-1.5 rounded-lg border border-white/25 bg-white/5 px-3.5 py-2 text-sm font-medium text-white hover:bg-white/10">
+            Export data
+          </button>
+        </div>
+        <dl className="mt-7 grid max-w-xl grid-cols-3 border border-white/20 bg-ink-950/50 font-mono backdrop-blur-sm text-[11px]">
+          {[
+            ["CASES", "05 SUCs"],
+            ["REGIONS", "LUZ · VIS · MIN"],
+            ["STANDARDS", "CDIO 01–12"],
+          ].map(([k, v]) => (
+            <div key={k} className="border-r border-white/20 px-3 py-2 last:border-r-0">
+              <dt className="text-brand-200/70">{k}</dt>
+              <dd className="mt-0.5 text-white">{v}</dd>
+            </div>
+          ))}
+        </dl>
+      </section>
       <SampleDataNotice />
 
       <div className="grid grid-cols-2 gap-4 xl:grid-cols-4">
@@ -42,6 +68,10 @@ export default function Dashboard() {
         <Stat label="Consensus sessions" value={`${consensusDone}/${programs}`} hint="Programs scored on all 12 standards" icon={<ClipboardCheck size={16} />} />
         <Stat label="FCIS responses" value={responses} hint={`${Math.round((responses / eligible) * 100)}% of ${eligible} eligible faculty`} icon={<ListChecks size={16} />} />
         <Stat label="Unverified scores" value={unverified} hint="Score ≥ 3 without audit evidence" icon={<AlertTriangle size={16} className="text-amber-500" />} />
+      </div>
+
+      <div className="mt-6">
+        <WhatIsCDIO />
       </div>
 
       <div className="mt-6 grid gap-6 xl:grid-cols-3">

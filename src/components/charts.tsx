@@ -17,7 +17,8 @@ import {
   ReferenceLine,
 } from "recharts";
 
-export const CASE_COLORS = ["#2852e0", "#0d9488", "#d97706", "#7c3aed", "#e11d48"];
+// led by the CDIO teal and black; extra hues keep five cases distinguishable
+export const CASE_COLORS = ["#309c9c", "#1f2a2b", "#d97706", "#7c3aed", "#e11d48"];
 
 export function MaturityRadar({
   axes,

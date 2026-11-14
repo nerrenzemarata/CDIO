@@ -12,9 +12,9 @@ import {
   Network,
   Users,
   Settings,
-  GraduationCap,
   ExternalLink,
   BookOpen,
+  Globe,
 } from "lucide-react";
 
 const NAV = [
@@ -48,20 +48,18 @@ const NAV = [
 export function Sidebar() {
   const path = usePathname();
   return (
-    <aside className="sticky top-0 hidden h-screen w-64 shrink-0 flex-col bg-ink-950 text-slate-300 lg:flex">
-      <div className="flex items-center gap-2.5 px-5 py-5">
-        <div className="grid h-9 w-9 place-items-center rounded-lg bg-brand-600 text-white">
-          <GraduationCap size={18} />
-        </div>
-        <div className="leading-tight">
-          <p className="text-sm font-semibold text-white">CDIO Study</p>
-          <p className="text-[11px] text-slate-400">Institutionalization research</p>
-        </div>
+    <aside className="blueprint sticky top-0 hidden h-screen w-64 shrink-0 flex-col border-r border-white/10 text-slate-300 lg:flex">
+      <div className="px-4 pb-3 pt-5">
+        <Link href="/" className="block rounded-lg bg-white px-3 py-2.5 shadow-[0_0_0_3px_rgba(48,156,156,0.45)] transition hover:shadow-[0_0_0_3px_rgba(48,156,156,0.8)]">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/cdio-logo.jpg" alt="CDIO: Conceive Design Implement Operate" width={500} height={240} className="h-auto w-full" />
+        </Link>
+        <p className="mt-2.5 text-center font-mono text-[10px] uppercase tracking-[0.14em] text-brand-200/80">Institutionalization Study</p>
       </div>
       <nav className="flex-1 overflow-y-auto px-3 pb-4">
         {NAV.map((g) => (
           <div key={g.section} className="mt-4">
-            <p className="px-2 pb-1.5 text-[10px] font-semibold uppercase tracking-wider text-slate-500">{g.section}</p>
+            <p className="px-2 pb-1.5 font-mono text-[10px] font-medium uppercase tracking-[0.14em] text-brand-200/60">{g.section}</p>
             {g.items.map(({ href, label, icon: Icon }) => {
               const active = href === "/" ? path === "/" : path.startsWith(href);
               return (
@@ -70,10 +68,10 @@ export function Sidebar() {
                   href={href}
                   className={clsx(
                     "mb-0.5 flex items-center gap-2.5 rounded-md px-2.5 py-2 text-[13px] transition-colors",
-                    active ? "bg-white/10 font-medium text-white" : "hover:bg-white/5 hover:text-white",
+                    active ? "bg-white/10 font-medium text-white shadow-[inset_3px_0_0_var(--color-safety-500)]" : "hover:bg-white/5 hover:text-white",
                   )}
                 >
-                  <Icon size={16} className={active ? "text-brand-200" : "text-slate-500"} />
+                  <Icon size={16} className={active ? "text-safety-400" : "text-brand-200/50"} />
                   {label}
                 </Link>
               );
@@ -81,10 +79,13 @@ export function Sidebar() {
           </div>
         ))}
         <div className="mt-4">
-          <p className="px-2 pb-1.5 text-[10px] font-semibold uppercase tracking-wider text-slate-500">Participant views</p>
+          <p className="px-2 pb-1.5 font-mono text-[10px] font-medium uppercase tracking-[0.14em] text-brand-200/60">Participant views</p>
           <Link href="/s/demo" className="flex items-center gap-2.5 rounded-md px-2.5 py-2 text-[13px] hover:bg-white/5 hover:text-white">
-            <ExternalLink size={16} className="text-slate-500" /> Survey form (public)
+            <ExternalLink size={16} className="text-brand-200/50" /> Survey form (public)
           </Link>
+          <a href="https://www.cdio.org" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2.5 rounded-md px-2.5 py-2 text-[13px] hover:bg-white/5 hover:text-white">
+            <Globe size={16} className="text-brand-200/50" /> cdio.org
+          </a>
         </div>
       </nav>
       <div className="border-t border-white/10 px-4 py-3">

@@ -1,16 +1,17 @@
-import { GraduationCap, Lock } from "lucide-react";
+import { DraftingCompass, Lock } from "lucide-react";
 import { SurveyForm } from "./survey-form";
 
 export default function PublicSurvey() {
   return (
-    <div className="min-h-screen bg-gradient-to-b from-brand-50 to-[#f6f7fb]">
+    <div className="min-h-screen">
+      <div className="blueprint h-2 w-full" />
       <div className="mx-auto max-w-3xl px-4 py-10">
         <div className="mb-6 flex items-center gap-3">
-          <div className="grid h-10 w-10 place-items-center rounded-xl bg-brand-600 text-white">
-            <GraduationCap size={20} />
+          <div className="grid h-10 w-10 place-items-center rounded-xl bg-safety-500 text-ink-950">
+            <DraftingCompass size={20} />
           </div>
           <div>
-            <p className="text-xs font-semibold uppercase tracking-wider text-brand-600">Faculty CDIO Institutionalization Survey</p>
+            <p className="font-mono text-[11px] font-medium uppercase tracking-[0.14em] text-brand-700">Faculty CDIO Institutionalization Survey</p>
             <h1 className="text-xl font-semibold text-slate-900">Your experience with CDIO in your program</h1>
           </div>
         </div>
