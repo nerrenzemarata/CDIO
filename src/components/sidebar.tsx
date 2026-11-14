@@ -1,6 +1,7 @@
 "use client";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
 import clsx from "clsx";
 import {
   LayoutDashboard,
@@ -17,7 +18,7 @@ import {
   Globe,
 } from "lucide-react";
 
-const NAV = [
+const NAV: { section: string; hidden?: boolean; items: { href: string; label: string; icon: typeof LayoutDashboard }[] }[] = [
   { section: "Overview", items: [{ href: "/", label: "Dashboard", icon: LayoutDashboard }] },
   {
     section: "SO1 · Within-case",
@@ -30,6 +31,7 @@ const NAV = [
   },
   {
     section: "SO2–SO4 · Synthesis",
+    hidden: true, // revealed by the secret button (the avatar in the sidebar footer)
     items: [
       { href: "/cross-case", label: "Cross-case synthesis", icon: GitCompareArrows },
       { href: "/framework", label: "Framework builder", icon: Network },
@@ -45,8 +47,27 @@ const NAV = [
   },
 ];
 
+const UNLOCK_KEY = "cdio-show-synthesis";
+
 export function Sidebar() {
   const path = usePathname();
+  const [unlocked, setUnlocked] = useState(false);
+
+  useEffect(() => {
+    try {
+      setUnlocked(localStorage.getItem(UNLOCK_KEY) === "1");
+    } catch {}
+  }, []);
+
+  const toggleHidden = () => {
+    const next = !unlocked;
+    setUnlocked(next);
+    try {
+      localStorage.setItem(UNLOCK_KEY, next ? "1" : "0");
+    } catch {}
+  };
+
+  const visible = NAV.filter((g) => !g.hidden || unlocked || g.items.some((i) => path.startsWith(i.href)));
   return (
     <aside className="blueprint sticky top-0 hidden h-screen w-64 shrink-0 flex-col border-r border-white/10 text-slate-300 lg:flex">
       <div className="px-4 pb-3 pt-5">
@@ -57,7 +78,7 @@ export function Sidebar() {
         <p className="mt-2.5 text-center font-mono text-[10px] uppercase tracking-[0.14em] text-brand-200/80">Institutionalization Study</p>
       </div>
       <nav className="flex-1 overflow-y-auto px-3 pb-4">
-        {NAV.map((g) => (
+        {visible.map((g) => (
           <div key={g.section} className="mt-4">
             <p className="px-2 pb-1.5 font-mono text-[10px] font-medium uppercase tracking-[0.14em] text-brand-200/60">{g.section}</p>
             {g.items.map(({ href, label, icon: Icon }) => {
@@ -90,7 +111,15 @@ export function Sidebar() {
       </nav>
       <div className="border-t border-white/10 px-4 py-3">
         <div className="flex items-center gap-2.5">
-          <div className="grid h-8 w-8 place-items-center rounded-full bg-brand-500/20 text-xs font-semibold text-brand-100">JB</div>
+          {/* secret button: looks like a plain avatar; toggles the hidden SO2–SO4 pages */}
+          <button
+            type="button"
+            onClick={toggleHidden}
+            aria-label="JB"
+            className="grid h-8 w-8 cursor-default place-items-center rounded-full bg-brand-500/20 text-xs font-semibold text-brand-100 focus:outline-none"
+          >
+            JB
+          </button>
           <div className="leading-tight">
             <p className="text-xs font-medium text-white">Engr. J. R. Bajuyo</p>
             <p className="text-[11px] text-slate-400">Researcher · Admin</p>
